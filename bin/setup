@@ -2,11 +2,18 @@
 require 'pathname'
 dir = Pathname.new(__FILE__).realpath + "../../dotfiles"
 ok = true
-Dir.glob(File.join(dir, "**/*"), File::FNM_DOTMATCH).each do |dotfile|
-  next if File.directory? dotfile
-  basename = File.basename dotfile
-  exec = "rm \"#{dotfile}\" && mv \"#{File.expand_path('~/' + basename)}\" \"#{dir}\" && ln -s \"#{dotfile}\" ~/"
-  #puts exec
-  output = `#{exec}`
+
+def exec command
+  #puts command
+  output = `#{command}`
   $stderr.puts output unless $?.success?
 end
+
+Dir.glob(File.join(dir, "*"), File::FNM_DOTMATCH).each do |dotfile|
+  next if File.directory? dotfile
+  basename = File.basename dotfile
+  home_dotfile = File.expand_path('~/' + basename)
+  exec "cp \"#{dotfile}\" ~/" unless File.exists? home_dotfile
+  exec "rm \"#{dotfile}\" && mv \"#{home_dotfile}\" \"#{dir}\" && ln -s \"#{dotfile}\" ~/"
+end
+
