@@ -21,4 +21,4 @@ nonblock on
 # enabled if there is no hardstatus setting for your terminal)
 hardstatus on
 hardstatus alwayslastline
-hardstatus string "%n%t%{-}%=%{..G}%H%{..Y} %d/%m %c "
+hardstatus string "%{..G}%n%{-}%t%=%{..G}%H%{..Y}"
