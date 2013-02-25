@@ -19,15 +19,21 @@ update_terminal_cwd() {
 forward_to_screen() {
     MYSTATUS="$?"
 
-    if [ $TERM = "screen" ]; then
+    if [ $TERM == "screen" ]; then
         MYPWD="${PWD/#$HOME/~}"
         [ ${#MYPWD} -gt 30 ] && MYPWD="..${MYPWD:${#MYPWD}-28}"
         [ ${#MYPWD} -lt 30 ] && MYPWD=`printf %-30s "$MYPWD"`
-        MYRBENV=$(rbenv version 2>/dev/null | awk '{print $1}')
-        [ ${#MYRBENV} -gt 0 ] && MYRBENV=" rbenv:${MYRBENV}"
-        MYGIT=$(git branch 2>/dev/null | grep '*' | awk '{print $2}')
-        [ ${#MYGIT} -gt 0 ] && MYGIT=" git:${MYGIT}"
-        echo -n -e "\033k|$MYSTATUS|$MYPWD|$MYRBENV$MYGIT\033\\"
+        MYRBENV=""
+        if command -v rbenv >/dev/null 2>&1; then
+            MYRBENV=$(rbenv version 2>/dev/null | awk '{print $1}')
+            [ ${#MYRBENV} -gt 0 ] && MYRBENV="|rbenv:${MYRBENV}"
+        fi
+        MYGIT=""
+        if command -v git >/dev/null 2>&1; then
+            MYGIT=$(git branch 2>/dev/null | grep '*' | awk '{print $2}')
+            [ ${#MYGIT} -gt 0 ] && MYGIT="|git:${MYGIT}"
+        fi
+        echo -n -e "\033k|$MYSTATUS|$MYPWD$MYRBENV$MYGIT\033\\"
         export PS1="\u\$ "
     fi
 }
