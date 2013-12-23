@@ -39,6 +39,7 @@ forward_to_screen() {
 }
 
 export PROMPT_COMMAND="forward_to_screen; update_terminal_cwd; history -a;"
+export EDITOR=/usr/bin/nano
 
 unset HISTFILESIZE
 export HISTSIZE=1000000

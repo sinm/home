@@ -1,10 +1,12 @@
 h2. home
 
-Home dotfiles. osx, ruby, git, screen, bash
+Default dotfiles for rbenv, git, screen, bash
 
 h2. bin/setup
 
-bin/setup copies listed in dotfiles/ files FROM YOUR HOME, overriding those in dotfiles/. Then it softlinks copied files to your home thus you're ready using git to control your domestic dotfiles.
+bin/setup copies files, listed in dotfiles/, FROM YOUR $HOME, overriding those in dotfiles/. If file is not found in $HOME.
+
+Then it softlinks files from dotfiles/ to your $HOME thus you're ready using git to control your domestic dotfiles.
 
 h2. bash --> screen's hardstatus
 
