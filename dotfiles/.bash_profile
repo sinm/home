@@ -1,8 +1,4 @@
 
-if [ -n "$BASHPROFILE_LOADED" ]; then
-   return
-fi
-
 if [ -f ~/.bashrc ]; then
 	source ~/.bashrc
 fi
@@ -38,5 +34,3 @@ unset HISTFILESIZE
 export HISTSIZE=1000000
 export HISTTIMEFORMAT='%F %T '
 shopt -s histappend
-
-export BASHPROFILE_LOADED=yes
