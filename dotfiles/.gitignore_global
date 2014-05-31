@@ -11,11 +11,6 @@ Icon
 .Spotlight-V100
 .Trashes
 
-#
-*~
-*.sublime-workspace
-.bundle
-
 # VCS
 .svn/
 /CVS/*

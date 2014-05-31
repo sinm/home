@@ -1,3 +1,8 @@
+
+if [ -n "$BASHPROFILE_LOADED" ]; then
+   return
+fi
+
 if [ -f ~/.bashrc ]; then
 	source ~/.bashrc
 fi
@@ -18,30 +23,20 @@ update_terminal_cwd() {
 
 forward_to_screen() {
     MYSTATUS="$?"
-
     if [ $TERM == "screen" ]; then
         MYPWD="${PWD/#$HOME/~}"
-        [ ${#MYPWD} -gt 30 ] && MYPWD="..${MYPWD:${#MYPWD}-28}"
-        [ ${#MYPWD} -lt 30 ] && MYPWD=`printf %-30s "$MYPWD"`
-        MYRBENV=""
-        if command -v rbenv >/dev/null 2>&1; then
-            MYRBENV=$(rbenv version 2>/dev/null | awk '{print $1}')
-            [ ${#MYRBENV} -gt 0 ] && MYRBENV="|rbenv:${MYRBENV}"
-        fi
-        MYGIT=""
-        if command -v git >/dev/null 2>&1; then
-            MYGIT=$(git branch 2>/dev/null | grep '*' | awk '{print $2}')
-            [ ${#MYGIT} -gt 0 ] && MYGIT="|git:${MYGIT}"
-        fi
-        echo -n -e "\033k|$MYSTATUS|$MYPWD$MYRBENV$MYGIT\033\\"
-        export PS1="\u\$ "
+        [ ${#MYPWD} -gt 50 ] && MYPWD="..${MYPWD:${#MYPWD}-48}"
+        [ ${#MYPWD} -lt 50 ] && MYPWD=`printf %-50s "$MYPWD"`
+        echo -n -e "\033k|$MYSTATUS|$MYPWD\033\\"
     fi
 }
 
+export PS1="\t \u\$ "
 export PROMPT_COMMAND="forward_to_screen; update_terminal_cwd; history -a;"
-export EDITOR=/usr/bin/nano
 
 unset HISTFILESIZE
 export HISTSIZE=1000000
 export HISTTIMEFORMAT='%F %T '
 shopt -s histappend
+
+export BASHPROFILE_LOADED=yes
