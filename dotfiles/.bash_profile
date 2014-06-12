@@ -34,3 +34,5 @@ unset HISTFILESIZE
 export HISTSIZE=1000000
 export HISTTIMEFORMAT='%F %T '
 shopt -s histappend
+
+export COLORFGBG="white;black"
