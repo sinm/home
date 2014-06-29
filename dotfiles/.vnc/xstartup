@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# Uncomment the following two lines for normal desktop:
+unset SESSION_MANAGER
+#exec /etc/X11/xinit/xinitrc
+
+#[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+
+xset -b # disable bell
+
+#NOTE: start with ssh-agent startx 
+#eval `/usr/bin/ssh-agent`
+#if test -f /usr/lib/ssh/x11-ssh-askpass # Debian
+#then
+#  SSH_ASKPASS=/usr/lib/ssh/x11-ssh-askpass ssh-add < /dev/null
+#fi
+
+#setxkbmap us,ru -option grp:ctrl_shift_toggle
+#xset r rate 250 60
+
+#VBoxClient --display
+#VBoxClient --clipboard
+
+xrdb -load <<EOF
+xterm*VT100.Translations: #override \
+  <Btn1Up>: select-end(CLIPBOARD,PRIMARY,CUT_BUFFER0) \n\
+        Ctrl <KeyPress> V: insert-selection(CLIPBOARD,PRIMARY,CUT_BUFFER0)
+xterm*font: -*-terminus-medium-*-*-*-16-*-*-*-*-*-iso10646-1
+xterm*selectToClipboard: true
+EOF
+xsetroot -solid grey
+vncconfig -nowin &
+dwm &
+
+
+
+
+#[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+#xsetroot -solid grey
+#vncconfig -iconic &
+#x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+#x-window-manager &
