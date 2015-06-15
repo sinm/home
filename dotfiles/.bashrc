@@ -1,6 +1,8 @@
+PATH=~/bin:~/.rbenv/bin:/opt/X11/bin:/usr/local/go/bin
+PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin
+PATH="$HOME/bin/apache-maven-3.2.1/bin:$PATH"
+export PATH
 
-export PATH=~/bin:~/.rbenv/bin:/opt/X11/bin:/usr/local/go/bin
-export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin
 
 if command -v rbenv >/dev/null 2>&1; then
   eval "$(rbenv init -)"
@@ -8,32 +10,24 @@ fi
 
 export EDITOR=`which nano`
 
-# Screen-compatible update_terminal_cwd()
-update_terminal_cwd() {
-    if [ "$TERM_PROGRAM" == "Apple_Terminal" ] && [ -z "$INSIDE_EMACS" ]; then
-        # Identify the directory using a "file:" scheme URL,
-        # including the host name to disambiguate local vs.
-        # remote connections. Percent-escape spaces.
-        local SEARCH=' '
-        local REPLACE='%20'
-        local PWD_URL="file://$HOSTNAME${PWD//$SEARCH/$REPLACE}"
-        # Include the escapes needed for screen to forward to Terminal.app
-        printf '\eP\e]7;%s\a\e\\' "$PWD_URL"
-    fi
+on_prompt_command() {
+  GIT_BRANCH=`git rev-parse --abbrev-ref HEAD 2>/dev/null`
+  if [ -z $GIT_BRANCH ]; then
+    GIT_PROMPT=-
+  else
+    GIT_CHANGE=`git rev-parse 2>/dev/null && (git diff --no-ext-diff --quiet --exit-code 2> /dev/null || echo -e \*) 2>/dev/null`
+    GIT_PROMPT=`echo -e $GIT_CHANGE$GIT_BRANCH`
+  fi
+  SCREEN_WND=$WINDOW
+  if [ -z "$WINDOW" ]; then
+    SCREEN_WND=-
+  else
+    SCREEN_WND=$WINDOW
+  fi
 }
 
-forward_to_screen() {
-    MYSTATUS="$?"
-    if [ $TERM == "screen" ]; then
-        MYPWD="${PWD/#$HOME/~}"
-        [ ${#MYPWD} -gt 50 ] && MYPWD="..${MYPWD:${#MYPWD}-48}"
-        [ ${#MYPWD} -lt 50 ] && MYPWD=`printf %-50s "$MYPWD"`
-        echo -n -e "\033k|$MYSTATUS|$MYPWD\033\\"
-    fi
-}
-
-export PS1="\t \u\$ "
-export PROMPT_COMMAND="forward_to_screen; update_terminal_cwd; history -a;"
+export PS1="> \$? \$SCREEN_WND \D{%F %H:%M:%S} \$GIT_PROMPT \u@\h:\W\n\$ "
+export PROMPT_COMMAND="on_prompt_command; history -a;"
 
 unset HISTFILESIZE
 export HISTSIZE=1000000
@@ -41,3 +35,5 @@ export HISTTIMEFORMAT='%F %T '
 shopt -s histappend
 
 export COLORFGBG="white;black"
+
+#screen -xR

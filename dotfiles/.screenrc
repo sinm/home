@@ -5,7 +5,7 @@ startup_message off
 # detach on hangup
 autodetach on
 
-defscrollback 5000
+defscrollback 50000
 #make scrollbar work
 termcapinfo xterm* ti@:te@
 
@@ -14,9 +14,5 @@ defutf8 on
 # If a window goes unresponsive, don't block the whole session waiting for it.
 nonblock on
 
-# An alternative hardstatus to display a bar at the bottom listing the
-# windownames and highlighting the current windowname in blue. (This is only
-# enabled if there is no hardstatus setting for your terminal)
-hardstatus on
-hardstatus alwayslastline
-hardstatus string "%{..G}%n%{-}%t%=|%{..G}%H%{-}"
+hardstatus off
+caption splitonly
