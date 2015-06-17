@@ -9,7 +9,7 @@ defscrollback 50000
 #make scrollbar work
 termcapinfo xterm* ti@:te@
 
-# Run everything in UTF-8.
+# Run everything in UTF-8, like -U?
 defutf8 on
 # If a window goes unresponsive, don't block the whole session waiting for it.
 nonblock on
