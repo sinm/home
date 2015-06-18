@@ -11,30 +11,22 @@ fi
 export EDITOR=`which nano`
 
 on_prompt_command() {
-  local last_status=$?
-  GIT_PROMPT=`git rev-parse 2>/dev/null && (git diff --no-ext-diff \
-              --quiet --exit-code 2> /dev/null || echo -e \*) 2>/dev/null`
+  PS1_PREFIX=`printf '%3s' $?`
 
-  if [ -z "$GIT_PROMPT" ]; then
-    GIT_PROMPT=`git rev-parse --abbrev-ref HEAD 2>/dev/null`
-    if [ -z "$GIT_PROMPT" ]; then
-      GIT_PROMPT=-
-    else
-      GIT_PROMPT=+
-    fi
+  DIR_LETTER=`git rev-parse --abbrev-ref HEAD 2>/dev/null`
+  if [ -z "$DIR_LETTER" ]; then
+    DIR_LETTER=-
   else
-    GIT_PROMPT=\*
+    DIR_LETTER=G
   fi
 
   SCREEN_WND=$WINDOW
   if [ -z "$WINDOW" ]; then
     SCREEN_WND=-
   fi
-
-  PS1_PREFIX=`printf '%3s' $last_status`
 }
 
-export PS1="\$PS1_PREFIX \$SCREEN_WND \D{%Y%m%d %H%M%S} \$GIT_PROMPT \u@\h:\W\n\$ "
+export PS1="\$PS1_PREFIX \$SCREEN_WND \D{%Y%m%d %H%M%S} \$DIR_LETTER \u@\h:\W\n\$ "
 export PROMPT_COMMAND="on_prompt_command; history -a;"
 
 unset HISTFILESIZE
