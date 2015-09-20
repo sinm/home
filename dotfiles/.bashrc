@@ -26,7 +26,7 @@ on_prompt_command() {
   fi
 }
 
-export PS1="\$PS1_PREFIX \$SCREEN_WND \D{%Y%m%d %H%M%S} \$DIR_LETTER \u@\h:\W\n\$ "
+export PS1="\$PS1_PREFIX \$SCREEN_WND \D{%Y-%m-%d %H:%M:%S} \$DIR_LETTER \u@\h:\w\n\$ "
 export PROMPT_COMMAND="on_prompt_command; history -a;"
 
 unset HISTFILESIZE
