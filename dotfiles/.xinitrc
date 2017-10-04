@@ -5,19 +5,23 @@ then
 	SSH_ASKPASS=/usr/lib/ssh/x11-ssh-askpass ssh-add < /dev/null
 fi
 
+VBoxClient --display
+VBoxClient --clipboard
+
 xset -b # disable bell
 setxkbmap us,ru -option grp:ctrl_shift_toggle
-xset r rate 250 60
+xset r rate    190 60
 xrdb -load <<EOF
 xterm*VT100.Translations: #override \
   <Btn1Up>: select-end(CLIPBOARD,PRIMARY,CUT_BUFFER0) \n\
         Ctrl <KeyPress> V: insert-selection(CLIPBOARD,PRIMARY,CUT_BUFFER0)
 xterm*font: -*-terminus-medium-*-*-*-16-*-*-*-*-*-iso10646-1
 xterm*selectToClipboard: true
-xterm*saveLines: 10000
+xterm*savelines: 20000
+xterm*rightScrollBar: true
 UXTerm*vt100.metaSendsEscape: true
 UXTerm*background: rgb:00/00/00
-UXTerm*foreground: rgb:ee/ee/ee
+UXTerm*foreground: rgb:bb/bb/bb
 EOF
 xsetroot -solid grey
 
