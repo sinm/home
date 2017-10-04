@@ -26,7 +26,12 @@ on_prompt_command() {
   fi
 }
 
-export PS1="\$PS1_PREFIX \$SCREEN_WND \D{%Y-%m-%d %H:%M:%S} \$DIR_LETTER \u@\h:\w\n\$ "
+if [ -n "$TERM" ]; then
+  bold=$(tput bold)
+  reset=$(tput sgr0)
+fi
+export PS1="\[$reset\]\[$bold\]\$PS1_PREFIX \$SCREEN_WND \D{%Y-%m-%d %H:%M:%S} \$DIR_LETTER \u@\h:\w\n\$ "
+trap '[[ -t 1 ]] && tput sgr0' DEBUG
 export PROMPT_COMMAND="on_prompt_command; history -a;"
 
 unset HISTFILESIZE
