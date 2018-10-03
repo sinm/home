@@ -26,15 +26,7 @@ on_prompt_command() {
   fi
 }
 
-#if [ -n "$TERM" ]; then
-  bold=$([[ -t 1 ]] && tput bold)
-  reset=$([[ -t 1 ]] && tput sgr0)
-#fi
-tReset=$(tput sgr0)
-export PS1="\[$(tput sgr0)\]\[$(tput bold)\]\$PS1_PREFIX \$SCREEN_WND \D{%Y-%m-%d %H:%M:%S} \$DIR_LETTER \u@\h:\w\n\$ "
-#if [ -n "$TERM" ]; then
-  trap "[[ -t 1 ]] && printf '$tReset'" DEBUG
-#fi
+export PS1="\$PS1_PREFIX \$SCREEN_WND \D{%Y-%m-%d %H:%M:%S} \$DIR_LETTER \u@\h:\w\n\$ "
 export PROMPT_COMMAND="on_prompt_command; history -a;"
 
 unset HISTFILESIZE
