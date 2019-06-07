@@ -3,6 +3,7 @@ PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 #PATH="$HOME/bin/apache-maven-3.2.1/bin:$PATH"
 export PATH
 export GO_PATH=$HOME/Projects/go
+eval `/usr/libexec/path_helper -s`
 
 if command -v rbenv >/dev/null 2>&1; then
   eval "$(rbenv init -)"
