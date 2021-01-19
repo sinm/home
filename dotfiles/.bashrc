@@ -1,6 +1,5 @@
-PATH=~/bin:~/.rbenv/bin:/opt/X11/bin:/usr/local/go/bin
+PATH=~/bin:~/.rbenv/bin:/opt/X11/bin
 PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
-PATH="/Users/sinm/openjdk11/bin:$PATH"
 export PATH
 [ -f /usr/libexec/path_helper ] && eval `/usr/libexec/path_helper -s`
 
@@ -35,5 +34,4 @@ export HISTTIMEFORMAT='%F %T '
 shopt -s histappend
 
 export COLORFGBG="white;black"
-
-#screen -xR
+#export LC_ALL=ru_RU.UTF-8
